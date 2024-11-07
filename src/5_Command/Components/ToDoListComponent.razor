@@ -1,0 +1,26 @@
+@using Command.Models
+@using Command.CommandConsumers
+
+@if (List is not null)
+{
+    <MudCard Elevation="5" Style="flex-basis: 80%; margin: 5px 10px 10px;padding: 20px; overflow: scroll">
+        <MudText Typo="Typo.h4" Class="mb-5">
+            ToDo items
+        </MudText>
+        <MudList>
+            <PhazorReactiveForEach Elements="List.Items" Context="item">
+                <ToDoItemComponent List="List" Item="item" Consumer="Consumer"/>
+            </PhazorReactiveForEach>
+        </MudList>
+    </MudCard>
+}
+
+@code {
+
+    [Parameter]
+    public ToDoList? List { get; set; }
+
+    [Parameter, EditorRequired]
+    public ICommandConsumer? Consumer { get; set; }
+
+}

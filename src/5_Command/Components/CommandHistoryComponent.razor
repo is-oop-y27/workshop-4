@@ -1,0 +1,31 @@
+@using Command.CommandConsumers
+@using Command.Commands
+@using Command.Components.Commands
+
+@if (History is not null)
+{
+    <MudCard Style="flex-basis: 20%; margin: 5px 10px 10px;padding: 20px; overflow: scroll; min-height: 0" Elevation="5">
+
+        <MudText Typo="Typo.h4" Class="mb-5">
+            History
+        </MudText>
+
+        <table class="command-history-panel">
+            <PhazorReactiveForEach Elements="History.Commands" Context="command">
+                <CommandComponent Command="command" Consumer="Consumer"/>
+            </PhazorReactiveForEach>
+        </table>
+    </MudCard>
+}
+
+@code {
+
+    private PhazorGrid? _grid;
+
+    [Parameter]
+    public CommandHistory? History { get; set; }
+
+    [Parameter]
+    public ICommandConsumer? Consumer { get; set; }
+
+}

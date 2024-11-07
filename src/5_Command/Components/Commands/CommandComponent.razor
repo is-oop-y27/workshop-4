@@ -1,0 +1,44 @@
+@using Command.Commands
+@using Command.CommandConsumers
+
+@if (ComponentType is not null)
+{
+    <DynamicComponent Type="ComponentType" Parameters="Parameters"/>
+}
+
+@code {
+
+    private Type? ComponentType => GetComponentType(Command);
+
+    private Dictionary<string, object?> Parameters => new Dictionary<string, object?>
+    {
+        [nameof(Command)] = Command,
+        [nameof(Consumer)] = Consumer,
+    };
+
+    [Parameter]
+    public ICommand? Command { get; set; }
+
+    [Parameter]
+    public ICommandConsumer? Consumer { get; set; }
+    
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine(1);
+    }
+
+    private static Type? GetComponentType(ICommand? command)
+    {
+        return command switch
+        {
+            AddItemCommand  => typeof(AddCommandComponent),
+            ChangeNameCommand  => typeof(ChangeNameComponent),
+            RemoveItemCommand  => typeof(RemoveCommandComponent),
+            _ => null,
+        };
+    }
+
+}

@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Command.Models
+@using Command.CommandConsumers
+
+<MudStack Style="height: 100%">
+
+    <ItemEditorComponent List="_list" Consumer="_consumer"/>
+
+    <MudStack Row="true" Style="width: 100%; overflow: hidden; flex-grow: 1">
+        <CommandHistoryComponent History="_history" Consumer="_consumer"/>
+        <ToDoListComponent List="_list" Consumer="_consumer"/>
+    </MudStack>
+
+</MudStack>
+
+@code {
+
+    private readonly ToDoList _list;
+    private readonly CommandHistory _history;
+    private readonly ICommandConsumer _consumer;
+
+    public Index()
+    {
+        _list = new ToDoList();
+        _history = new CommandHistory();
+        _consumer = new CommandConsumer(_history);
+    }
+
+}
