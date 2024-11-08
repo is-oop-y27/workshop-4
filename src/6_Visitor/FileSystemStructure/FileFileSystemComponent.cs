@@ -1,3 +1,5 @@
+using Visitor.Visitors;
+
 namespace Visitor.FileSystemStructure;
 
 public class FileFileSystemComponent : IFileSystemComponent
@@ -8,4 +10,9 @@ public class FileFileSystemComponent : IFileSystemComponent
     }
 
     public string Name { get; }
+
+    public void Accept(IFileSystemComponentVisitor visitor)
+    {
+        visitor.Visit(this);
+    }
 }

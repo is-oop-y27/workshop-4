@@ -1,19 +1,49 @@
 using State.Results;
+using State.StateHandlers;
 
 namespace State.Models;
 
 public class Submission
 {
-    public Submission(SubmissionState state)
+    private ISubmissionStateHandler _stateHandler;
+
+    public Submission(ISubmissionStateHandler stateHandler)
     {
-        State = state;
+        _stateHandler = stateHandler;
     }
 
-    public SubmissionState State { get; }
+    public SubmissionState State => _stateHandler.State;
 
-    public SubmissionActionResult Activate() { }
+    public SubmissionActionResult Activate()
+    {
+        SubmissionStateMoveResult result = _stateHandler.MoveToActive();
 
-    public SubmissionActionResult Complete() { }
+        if (result is not SubmissionStateMoveResult.Success success)
+            return new SubmissionActionResult.InvalidState(_stateHandler.State);
 
-    public SubmissionActionResult Ban() { }
+        _stateHandler = success.Next;
+        return new SubmissionActionResult.Success();
+    }
+
+    public SubmissionActionResult Complete()
+    {
+        SubmissionStateMoveResult result = _stateHandler.MoveToCompleted();
+
+        if (result is not SubmissionStateMoveResult.Success success)
+            return new SubmissionActionResult.InvalidState(_stateHandler.State);
+
+        _stateHandler = success.Next;
+        return new SubmissionActionResult.Success();
+    }
+
+    public SubmissionActionResult Ban()
+    {
+        SubmissionStateMoveResult result = _stateHandler.MoveToBanned();
+
+        if (result is not SubmissionStateMoveResult.Success success)
+            return new SubmissionActionResult.InvalidState(_stateHandler.State);
+
+        _stateHandler = success.Next;
+        return new SubmissionActionResult.Success();
+    }
 }

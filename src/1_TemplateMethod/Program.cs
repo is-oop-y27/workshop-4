@@ -4,6 +4,9 @@ using TemplateMethod.Models;
 using TemplateMethod.Services;
 
 Randomizer.Seed = new Random(52);
+
+RunScenario(new TaskEmployeeEvaluator());
+
 return;
 
 static void RunScenario(IEmployeeEvaluator evaluator)

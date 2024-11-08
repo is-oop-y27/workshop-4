@@ -1,4 +1,8 @@
 ﻿using ResponsibilityChain.OutputRun;
+using ResponsibilityChain.ParameterHandlers;
 
-IOutputRunner runner = null!;
+IParameterHandler handler = new ColorParameterHandler()
+    .AddNext(new DecorationParameterHandler());
+
+IOutputRunner runner = new OutputRunner(handler);
 runner.Run(args);

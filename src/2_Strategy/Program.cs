@@ -2,8 +2,17 @@
 using Bogus;
 using Strategy.Models;
 using Strategy.Services;
+using Strategy.Sorting;
 
 Randomizer.Seed = new Random(52);
+
+var sorter = new TaskEmployeeSorter();
+
+var evaluator = new EmployeeEvaluator(sorter);
+var qualifier = new EmployeePromotionQualifier(sorter, 5);
+
+RunScenario(evaluator);
+
 return;
 
 static void RunScenario(IEmployeeEvaluator evaluator)

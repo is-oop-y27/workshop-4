@@ -8,4 +8,12 @@ public class TextField
     {
         Value = value;
     }
+
+    public TextFieldSnapshot CreateSnapshot() 
+        => new TextFieldSnapshot(Value);
+
+    public void RestoreSnapshot(TextFieldSnapshot field)
+    {
+        Value = field.Value;
+    }
 }

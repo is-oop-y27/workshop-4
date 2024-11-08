@@ -8,5 +8,5 @@ public abstract record SubmissionActionResult
 
     public sealed record Success : SubmissionActionResult;
 
-    public sealed record InvalidState(SubmissionState State) : SubmissionActionResult;
+    public sealed record InvalidState(SubmissionState CurrentState) : SubmissionActionResult;
 }
